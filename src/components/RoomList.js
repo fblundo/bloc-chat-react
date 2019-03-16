@@ -52,12 +52,11 @@ class RoomList extends Component {
       </form>
 
       <br></br>
-      {this.state.rooms.map( room =>
-          <ul className="text-left">
-          <li key={room.key}>
-
-        <button className="room-name" className="btn btn-link" onClick={ () => this.props.setActiveRoom(room) }>{ room.name }</button>
-        </li>
+      {this.state.rooms.map(room =>
+        <ul className="text-left" key={room.key}>
+          <li>
+            <button className="room-name" className="btn btn-link" onClick={ () => this.props.setActiveRoom(room) }>{ room.name }</button>
+          </li>
       </ul>
       )}
 

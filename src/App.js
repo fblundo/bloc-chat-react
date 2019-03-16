@@ -32,8 +32,8 @@ class App extends Component {
       <div className="App">
       <header className="App-header">
 
-        <div class="container">
-          <div class="row">
+        <div className="container">
+          <div className="row">
             <div className="col-4">
               <RoomList firebase={firebase} activeRoom={this.state.activeRoom} setActiveRoom={this.setActiveRoom.bind(this)} />
             </div>
