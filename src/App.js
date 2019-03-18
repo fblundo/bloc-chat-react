@@ -47,7 +47,7 @@ render() {
             <div  className="col">
               <User firebase={firebase}
                     user={this.state.user}
-                    setUser={() => this.setUser()}
+                    setUser={this.setUser.bind(this)}
                />
               <MessageList firebase={firebase} activeRoom={this.state.activeRoom} user={this.state.user}/>
             </div>
