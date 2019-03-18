@@ -39,7 +39,6 @@ class RoomList extends Component {
   render() {
     return (
 
-
       <section className="room-list">
       <form id="create-room" onSubmit={(e) => {this.handleSubmit(e)}}>
         <input type="text"
@@ -59,9 +58,6 @@ class RoomList extends Component {
           </li>
       </ul>
       )}
-
-
-
       </section>
       // {this.state.rooms.map( room =>
       // <div key={room.key}> {room.name} </div>
