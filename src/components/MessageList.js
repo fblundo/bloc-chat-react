@@ -21,6 +21,11 @@ class MessageList extends Component {
       this.showMessages( this.props.activeRoom ) // I show the messages filtered based on the ActiveRoom, which I get as props from App.js state
       });
     });
+    this.messagesRef.on('child_removed', snapshot  => {
+      this.setState({ messageList: this.state.messageList.filter( message => message.key !== snapshot.key )  }, () => {
+        this.showMessages( this.props.activeRoom )
+      });
+    });
   }
 
   // to be updated
@@ -47,6 +52,10 @@ class MessageList extends Component {
     this.setState({ newMessage: '' });
   }
 
+  removeMessage(activeRoom) {
+    this.messagesRef.child(activeRoom.key).remove();
+  }
+
   handleSubmit(e) {
     e.preventDefault(); //it prevents to submit the form (as if it was refreshing the page in the default way; we don't need it, being this React)
     this.createMessage(this.state.newMessage);
@@ -68,6 +77,7 @@ class MessageList extends Component {
           <div className="time">
           { message.sentAt }
           </div>
+          <input type="button" className="btn-remove-msg" onClick={() => this.removeMessage(message)} />
         </li>
       )}
       </ul>
