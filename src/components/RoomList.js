@@ -19,7 +19,6 @@ class RoomList extends Component {
     });
   }
 
-
   handleChange(e) {
     this.setState({newRoomName: e.target.value });  //take the room name typed into the input form and use it to setState of newRoomName
   }
@@ -38,7 +37,6 @@ class RoomList extends Component {
 
   render() {
     return (
-
       <section className="room-list">
       <form id="create-room" onSubmit={(e) => {this.handleSubmit(e)}}>
         <input type="text"
@@ -54,6 +52,7 @@ class RoomList extends Component {
       {this.state.rooms.map(room =>
         <ul className="text-left" key={room.key}>
           <li>
+            {/*//by cliking on the link, i set the selected room as the active room in the state of App.js */}
             <button className="room-name" className="btn btn-link" onClick={ () => this.props.setActiveRoom(room) }>{ room.name }</button>
           </li>
       </ul>
@@ -62,7 +61,6 @@ class RoomList extends Component {
       // {this.state.rooms.map( room =>
       // <div key={room.key}> {room.name} </div>
       // )}
-
     );
   }
 }

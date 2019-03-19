@@ -12,17 +12,20 @@ class MessageList extends Component {
   }
 
   componentDidMount() {
-    this.messagesRef.on('child_added', snapshot  => {
+    this.messagesRef.on('child_added', snapshot  => { //Retrieve lists of items or listen for additions to a list of items.
+      //This event is triggered once for each existing child and then again every time a new child is added to the specified
+      //path. The listener is passed a snapshot containing the new child's data.
       const message = snapshot.val();
-      message.key = snapshot.key;
+      message.key = snapshot.key; //When rendering an array in React, each item should have a unique "key" prop, and the snapshot's key is ideal for that purpose.
       this.setState({messageList: this.state.messageList.concat(message) }, () => {
-        this.showMessages( this.props.activeRoom )
+      this.showMessages( this.props.activeRoom ) // I show the messages filtered based on the ActiveRoom, which I get as props from App.js state
       });
     });
   }
 
+  // to be updated
   componentWillReceiveProps(nextProps) { //https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html
-    this.showMessages( nextProps.activeRoom );
+    this.showMessages( nextProps.activeRoom ); //I update the list of messages, keeping the Active Room as reference
   }
 
   handleChange(e) {
@@ -30,7 +33,23 @@ class MessageList extends Component {
   }
 
   showMessages(activeRoom) {
-    this.setState({ displayedMessages: this.state.messageList.filter(message => message.roomId === activeRoom.key)});
+    this.setState({ displayedMessages: this.state.messageList.filter(message => message.roomId === activeRoom.key)}); //filtering those messages which
+    //have same roomId as the active Room.key passed from RoomList component.
+  }
+
+  createMessage(newMessage) {
+    this.messagesRef.push({ //use the .push() method on a Firebase reference to add an item to that location, we are saving data on the Firebase database
+      username: this.props.user ? this.props.user.displayName : 'Guest',
+      content: newMessage,
+      sentAt: this.props.firebase.database.ServerValue.TIMESTAMP,
+      roomId: this.props.activeRoom.key,
+    });
+    this.setState({ newMessage: '' });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault(); //it prevents to submit the form (as if it was refreshing the page in the default way; we don't need it, being this React)
+    this.createMessage(this.state.newMessage);
   }
 
   render() {
@@ -46,9 +65,21 @@ class MessageList extends Component {
           <div className="content">
           { message.content }
           </div>
+          <div className="time">
+          { message.sentAt }
+          </div>
         </li>
       )}
       </ul>
+
+      <form id="create-message" onSubmit={ (e) => { e.preventDefault(); this.createMessage(this.state.newMessage) } }>
+        <input type="text"
+          value={ this.state.newMessage }
+          onChange={ this.handleChange.bind(this) }
+          name="newMessageText"
+          placeholder="Write your message here..." />
+        <input type="submit" value="Send"/>
+      </form>
       </main>
     );
   }

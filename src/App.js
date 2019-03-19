@@ -27,11 +27,11 @@ class App extends Component {
   }
 
 setActiveRoom(room) {
-   this.setState({activeRoom: room});
+   this.setState({activeRoom: room}); //i use this method to set the active Room (by default "null")
  }
 
  setUser(user) {
-    this.setState({user: user});
+    this.setState({user: user}); //i use this method to set the active user (by default "null")
   }
 
 render() {
